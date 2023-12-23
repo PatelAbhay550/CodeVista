@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
@@ -22,12 +22,15 @@ const Auth = () => {
         return;
       }
 
+      // Create a new user
       await createUserWithEmailAndPassword(auth, email, password);
 
       // Save user data locally
       const user = {
         email,
-        password, // Note: Storing password in localStorage is not secure. This is just for demonstration purposes.
+        // Note: Storing password in localStorage is not secure.
+        // This is just for demonstration purposes.
+        password,
       };
       localStorage.setItem("user", JSON.stringify(user));
 

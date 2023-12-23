@@ -1,0 +1,88 @@
+/* Body Styles */
+body {
+  background-color: #121212;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+/* Container Styles */
+div {
+  box-sizing: border-box;
+}
+
+/* Header Styles */
+h2 {
+  color: #ffffff;
+}
+
+/* Navbar Styles */
+a {
+  color: #ffffff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Dashboard Styles */
+div > div {
+  background-color: #404040;
+  padding: 20px;
+}
+
+/* Code Snippet Styles */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background-color: #282828;
+  color: #ffffff;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+li a {
+  color: #ffffff;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+/* New Post Styles */
+textarea {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #282828;
+  color: #ffffff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #404040;
+}
+
+/* Loading Styles */
+p {
+  color: #ffffff;
+}
+
+/* Footer Styles */
+.footer {
+  background-color: #282828;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  color: #ffffff;
+}

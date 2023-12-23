@@ -1,15 +1,31 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate(); // Hook for navigation
+
+  useEffect(() => {
+    // Check if user is already signed in
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const { email, password } = JSON.parse(storedUser);
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          // If successful, navigate to the Dashboard
+          navigate("/dashboard");
+        })
+        .catch((error) => {
+          console.error("Auto sign-in failed:", error.message);
+        });
+    }
+  }, []); // Empty dependency array ensures the effect runs only once on component mount
 
   const validatePassword = () => {
     return password.length >= 6;
@@ -22,22 +38,16 @@ const Auth = () => {
         return;
       }
 
-      // Create a new user
       await createUserWithEmailAndPassword(auth, email, password);
 
-      // Save user data locally
+      // Save user data in localStorage
       const user = {
         email,
-        // Note: Storing password in localStorage is not secure.
-        // This is just for demonstration purposes.
         password,
       };
       localStorage.setItem("user", JSON.stringify(user));
 
-      // Auto sign in
-      await signInWithEmailAndPassword(auth, email, password);
-
-      // Navigate to the Dashboard after sign up and auto sign in
+      // Navigate to the Dashboard after sign up
       navigate("/dashboard");
     } catch (error) {
       console.error("Error signing up:", error.message);
@@ -47,6 +57,14 @@ const Auth = () => {
   const handleSignIn = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
+
+      // Save user data in localStorage on sign in
+      const user = {
+        email,
+        password,
+      };
+      localStorage.setItem("user", JSON.stringify(user));
+
       // Navigate to the Dashboard after sign in
       navigate("/dashboard");
     } catch (error) {

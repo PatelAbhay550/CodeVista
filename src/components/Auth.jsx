@@ -74,21 +74,35 @@ const Auth = () => {
 
   return (
     <div>
-      <h2>Authentication</h2>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={handleSignUp}>Sign Up</button>
-      <button onClick={handleSignIn}>Sign In</button>
+      <div className="">
+        <h2>Authentication</h2>
+        <div className="inp">
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />{" "}
+          <br />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />{" "}
+        </div>
+        <div className="options">
+          <button onClick={handleSignUp}>Sign Up</button>
+          <button onClick={handleSignIn}>Sign In</button>
+        </div>
+      </div>
+      <div className="text-ar">
+        <h1>Paste Your Code And Share!</h1>
+        <p>Simple app for Pasting and Sharing your code on the way.</p>
+        <p>
+          Just <span className="code-paste">Sign up</span> and share
+        </p>
+      </div>
     </div>
   );
 };

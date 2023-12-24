@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { updateProfile } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth, firestore } from "../firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 const Profile = ({ user }) => {
   const [newDisplayName, setNewDisplayName] = useState("");
@@ -18,6 +19,17 @@ const Profile = ({ user }) => {
     try {
       // Update the user's display name using updateProfile function
       await updateProfile(auth.currentUser, { displayName: newDisplayName });
+
+      // Save the display name to Firestore
+      const userDocRef = doc(firestore, "users", user.uid);
+      await setDoc(
+        userDocRef,
+        { displayName: newDisplayName },
+        { merge: true }
+      );
+
+      // Update the local state with the new display name
+      setNewDisplayName(newDisplayName);
     } catch (error) {
       console.error("Error updating display name:", error.message);
     }
@@ -48,7 +60,7 @@ const Profile = ({ user }) => {
           <button onClick={handleUpdateName}>Update Name</button>
 
           <h3>Actions</h3>
-          <Link to="/dashboard" className="link-button">
+          <Link to="/" className="link-button">
             Back to Dashboard
           </Link>
           <br />

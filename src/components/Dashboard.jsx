@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
-import { firestore, auth } from "../firebase";
+import { firestore } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = ({ user }) => {
   const [allCodes, setAllCodes] = useState([]);
   const [newPostContent, setNewPostContent] = useState("");
+  const navigate = useNavigate();
 
   const fetchAllCodes = async () => {
     try {
@@ -24,11 +26,20 @@ const Dashboard = ({ user }) => {
   };
 
   useEffect(() => {
-    fetchAllCodes();
-  }, []);
+    if (user) {
+      fetchAllCodes();
+    } else {
+      navigate("/auth");
+    }
+  }, [user, navigate]);
 
   const handleNewPost = async () => {
     try {
+      if (!user) {
+        console.error("User not authenticated");
+        return;
+      }
+
       const codesCollection = collection(firestore, "codes");
       await addDoc(codesCollection, {
         userId: user.uid,
@@ -39,7 +50,6 @@ const Dashboard = ({ user }) => {
         },
       });
 
-      // Fetch all codes again after adding a new post
       fetchAllCodes();
 
       setNewPostContent("");
@@ -70,16 +80,20 @@ const Dashboard = ({ user }) => {
                 </Link>
                 <p>
                   Author:{" "}
-                  {code.author
-                    ? `${code.author.username} (${code.author.email})`
-                    : "Unknown"}
+                  {code.author ? (
+                    <span>
+                      {code.author.username} ({code.author.email})
+                    </span>
+                  ) : (
+                    "Unknown"
+                  )}
                 </p>
               </li>
             ))}
           </ul>
           <div className="paste">
             <h3>Create a New Post</h3>
-            <Link className="code-paste" to="/paste-code">
+            <Link className="code-paste" to="/create-post">
               Create Post
             </Link>
           </div>

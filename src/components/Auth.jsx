@@ -19,7 +19,7 @@ const Auth = () => {
       signInWithEmailAndPassword(auth, email, password)
         .then(() => {
           // If successful, navigate to the Dashboard
-          navigate("/dashboard");
+          navigate("/");
         })
         .catch((error) => {
           console.error("Auto sign-in failed:", error.message);
@@ -48,7 +48,7 @@ const Auth = () => {
       localStorage.setItem("user", JSON.stringify(user));
 
       // Navigate to the Dashboard after sign up
-      navigate("/dashboard");
+      navigate("/");
     } catch (error) {
       console.error("Error signing up:", error.message);
     }
@@ -66,7 +66,7 @@ const Auth = () => {
       localStorage.setItem("user", JSON.stringify(user));
 
       // Navigate to the Dashboard after sign in
-      navigate("/dashboard");
+      navigate("/");
     } catch (error) {
       console.error("Error signing in:", error.message);
     }

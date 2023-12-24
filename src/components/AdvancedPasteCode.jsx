@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { firestore } from "../firebase";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AdvancedPasteCode = () => {
   const [title, setTitle] = useState("");
@@ -10,6 +10,8 @@ const AdvancedPasteCode = () => {
   const [tags, setTags] = useState("");
   const [syntaxHighlighting, setSyntaxHighlighting] = useState("plaintext");
   const [pasteExpiration, setPasteExpiration] = useState("1d"); // Default to 1 day
+
+  const navigate = useNavigate();
 
   const handlePasteCode = async () => {
     try {
@@ -33,6 +35,9 @@ const AdvancedPasteCode = () => {
       setPasteExpiration("1d");
 
       console.log("Code pasted successfully!");
+
+      // Redirect to Dashboard after pasting
+      navigate("/");
     } catch (error) {
       console.error("Error pasting code:", error.message);
     }
@@ -60,7 +65,7 @@ const AdvancedPasteCode = () => {
       </label>
       <br />
       <label>
-        Tags (comma-separated):
+        Tags (comma and space-separated):
         <input
           type="text"
           value={tags}
@@ -93,9 +98,7 @@ const AdvancedPasteCode = () => {
       </label>
       <br />
       <button onClick={handlePasteCode}>Paste Code</button>
-      <br />
-      <br />
-      <Link to="/dashboard" className="link-button">
+      <Link to="/" className="link-button">
         Back to Dashboard
       </Link>
     </div>
